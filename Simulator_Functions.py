@@ -54,7 +54,7 @@ def unit_JA(ja):
                 ja[i,j] = ja[i,j]/np.linalg.norm(ja[i,j])
     return ja
 
-def RigidbodyMesh (ref_pos_1, ref_pos_2, ref_axis):
+def RigidbodyMesh_old (ref_pos_1, ref_pos_2, ref_axis):
     
     mesh_data = np.zeros((27,3), dtype=np.float64);
     
@@ -108,7 +108,61 @@ def RigidbodyMesh (ref_pos_1, ref_pos_2, ref_axis):
     
     return mesh_data
 
+def RigidbodyMesh (ref_pos_1, ref_pos_2, ref_axis):
+    
+    mesh_data = np.zeros((27,3), dtype=np.float64);
+    bar_len = np.linalg.norm(ref_pos_2-ref_pos_1)
+    #bar_len = 2
+    
+    center = 0.5*(ref_pos_1-ref_pos_2) + ref_pos_2;
+    #x axis
+    x_rigid = np.cross((ref_pos_2 - ref_pos_1),ref_axis);
+    x_rigid = x_rigid/np.linalg.norm(x_rigid);
+    #y axis
+    y_rigid = ref_pos_2 - ref_pos_1;
+    y_rigid = y_rigid/np.linalg.norm(y_rigid);
+    #z axis
+    z_rigid = np.cross(x_rigid,y_rigid);
+    z_rigid = z_rigid/np.linalg.norm(z_rigid);
 
+    #mesh, unit = 2
+    mesh_data[0,:] = center; #[0,0,0]
+
+    mesh_data[1,:] = center + bar_len*z_rigid; #[0,0,1]
+    mesh_data[2,:] = center - bar_len*z_rigid; #[0,0,-1]
+    
+    mesh_data[3,:] = center + bar_len*x_rigid; #[1,0,0]
+    mesh_data[4,:] = center - bar_len*x_rigid; #[-1,0,0]
+    
+    mesh_data[5,:] = center + bar_len*y_rigid; #[0,1,0]
+    mesh_data[6,:] = center - bar_len*y_rigid; #[0,-1,0]
+    
+    
+    mesh_data[7,:] = center + bar_len*x_rigid + bar_len*y_rigid; #[1,1,0]
+    mesh_data[8,:] = center + bar_len*x_rigid - bar_len*y_rigid; #[1,-1,0]
+    mesh_data[9,:] = center - bar_len*x_rigid + bar_len*y_rigid; #[-1,1,0]
+    mesh_data[10,:] = center - bar_len*x_rigid - bar_len*y_rigid; #[-1,-1,0]
+    
+    mesh_data[11,:] = center + bar_len*x_rigid + bar_len*z_rigid; #[1,0,1]
+    mesh_data[12,:] = center + bar_len*x_rigid - bar_len*z_rigid; #[1,0,-1]
+    mesh_data[13,:] = center - bar_len*x_rigid + bar_len*z_rigid; #[-1,0,1]
+    mesh_data[14,:] = center - bar_len*x_rigid - bar_len*z_rigid; #[-1,0,-1]
+    
+    mesh_data[15,:] = center + bar_len*y_rigid + bar_len*z_rigid; #[0,1,1]
+    mesh_data[16,:] = center + bar_len*y_rigid - bar_len*z_rigid; #[0,1,-1]
+    mesh_data[17,:] = center - bar_len*y_rigid + bar_len*z_rigid; #[0,-1,1]
+    mesh_data[18,:] = center - bar_len*y_rigid - bar_len*z_rigid; #[0,-1,-1]
+    
+    mesh_data[19,:] = center + bar_len*x_rigid + bar_len*y_rigid + bar_len*z_rigid; #[1,1,1]
+    mesh_data[20,:] = center + bar_len*x_rigid + bar_len*y_rigid - bar_len*z_rigid; #[1,1,-1]
+    mesh_data[21,:] = center + bar_len*x_rigid - bar_len*y_rigid + bar_len*z_rigid; #[1,-1,1]
+    mesh_data[22,:] = center - bar_len*x_rigid + bar_len*y_rigid + bar_len*z_rigid; #[-1,1,1]
+    mesh_data[23,:] = center + bar_len*x_rigid - bar_len*y_rigid - bar_len*z_rigid; #[1,-1,-1]
+    mesh_data[24,:] = center - bar_len*x_rigid - bar_len*y_rigid + bar_len*z_rigid; #[-1,-1,1]
+    mesh_data[25,:] = center - bar_len*x_rigid + bar_len*y_rigid - bar_len*z_rigid; #[-1,1,-1]
+    mesh_data[26,:] = center - bar_len*x_rigid - bar_len*y_rigid - bar_len*z_rigid; #[-1,-1,-1]
+    
+    return mesh_data
 # # Calculate the configuration
 
 # Simply check if this mechanism is 1-dof
@@ -498,9 +552,9 @@ def build_tri_link_constraints (un, jt, tri_links, tri_link_len, tri_link_ang):
         u2 = un[inx2,3:6]
         #f = u12[0]*u2[0] + u12[1]*u2[1] + u12[2]*u2[2] - sp.sqrt(u12.dot(u12))*sp.sqrt(u2.dot(u2))
         #f = u12.dot(u12)*u2.dot(u2) - u2.dot(u12)*u2.dot(u12)
-        f = (u12[2]*u2[0] - u12[0]*u2[2])*(u12[2]*u2[0] - u12[0]*u2[2]) + (u12[1]*u2[2] - u12[2]*u2[1])*(u12[1]*u2[2] - u12[2]*u2[1]) +(u12[0]*u2[1] - u12[1]*u2[0])*(u12[0]*u2[1] - u12[1]*u2[0])
+        f = (u12[2]*u2[0] - u12[0]*u2[2])*(u12[2]*u2[0] - u12[0]*u2[2]) + (u12[1]*u2[2] - u12[2]*u2[1])*(u12[1]*u2[2] - u12[2]*u2[1]) + (u12[0]*u2[1] - u12[1]*u2[0])*(u12[0]*u2[1] - u12[1]*u2[0])
         F.append(f)
-        f = (u12[2]*u2[0] - u12[0]*u2[2])*(u12[2]*u2[0] - u12[0]*u2[2]) - (u12[1]*u2[2] - u12[2]*u2[1])*(u12[1]*u2[2] - u12[2]*u2[1]) +(u12[0]*u2[1] - u12[1]*u2[0])*(u12[0]*u2[1] - u12[1]*u2[0])
+        f = (u12[2]*u2[0] - u12[0]*u2[2])*(u12[2]*u2[0] - u12[0]*u2[2]) - (u12[1]*u2[2] - u12[2]*u2[1])*(u12[1]*u2[2] - u12[2]*u2[1]) + (u12[0]*u2[1] - u12[1]*u2[0])*(u12[0]*u2[1] - u12[1]*u2[0])
         F.append(f)
             
 #         #print("u2:",u2)
@@ -723,7 +777,7 @@ def remove_unvalid_constraint (initial_constraint):
         #print(type(initial_constraint[i]))
         #print(initial_constraint[i])
         if isinstance(initial_constraint[i],np.float64) or isinstance(initial_constraint[i],int) or isinstance(initial_constraint[i],float):
-            if abs(initial_constraint[i]) < 1e-5:
+            if abs(initial_constraint[i]) < 1e-4:
                 removal.append(i)
                 #print("remove1:",initial_constraint[i])
             else:
@@ -733,7 +787,7 @@ def remove_unvalid_constraint (initial_constraint):
             #print("remove2:",initial_constraint[i])
             removal.append(i)
         elif isinstance(initial_constraint[i],sp.core.numbers.Float):
-            if abs(initial_constraint[i]) < 1e-5:
+            if abs(initial_constraint[i]) < 1e-4:
                 removal.append(i)
                 #print("remove3:",initial_constraint[i])
             else:
@@ -811,32 +865,32 @@ def find_real_unknowns_and_initial_guess(ground_link, ground_inx, actuate_link, 
     initial_guess = np.concatenate(initial_guess)
     return real_un, initial_guess
 
-def solve_constraint_equations(constraint_equations_sym, unknown_params, guess):
+# def solve_constraint_equations(constraint_equations_sym, unknown_params, guess):
     
-    def constraint_eqs(upara):
-        #print(np.array([eq(*upara) for eq in constraint_equations]))
-        return np.array([eq(*upara) for eq in constraint_equations])
+#     def constraint_eqs(upara):
+#         #print(np.array([eq(*upara) for eq in constraint_equations]))
+#         return np.array([eq(*upara) for eq in constraint_equations])
     
-    constraint_equations = [sp.lambdify(unknown_params, eq, 'numpy') for eq in constraint_equations_sym]
-    #print(constraint_eqs)
+#     constraint_equations = [sp.lambdify(unknown_params, eq) for eq in constraint_equations_sym]
+#     #print(constraint_eqs)
 
-    result = root(constraint_eqs, guess, tol = 1e-5)#, method='hybr')#, tol = 1e-10)#,method='krylov')
-    #print(result)
-    #print("-----------------")
+#     result = root(constraint_eqs, guess, tol = 1e-5)#,method='krylov')
+#     #print(result)
+#     #print("-----------------")
 
     
-    if result.success:
-        solution = result.x
-#         print(result.fun)
-#         print("-----------------")
-#         print(solution)
-        return solution, True
-    else:
-        mes = result.message;
-        #print(result.fun)
-        #print(mes)
+#     if result.success:
+#         solution = result.x
+# #         print(result.fun)
+# #         print("-----------------")
+# #         print(solution)
+#         return solution, True
+#     else:
+#         mes = result.message;
+#         #print(result.fun)
+#         #print(mes)
         
-        return None, False    
+        # return None, False    
 
 
 def find_actuator_inx (un, actuate_link):
@@ -861,8 +915,8 @@ def assign_value_for_actuator(final_constraint, un_actuator_inx, updated_actuate
     return updated_constraint
 
 #################################### Plot and Normalization Functions #####################################################
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
+# import matplotlib.pyplot as plt
+# from mpl_toolkits.mplot3d import Axes3D
 from scipy.spatial.distance import directed_hausdorff
 from scipy.interpolate import splprep, splev
 
@@ -916,7 +970,7 @@ def plotMec(jt, jc, ja, bi_links, tri_links, ground_link, coupler, scale=0.5):
     
     ground_inx0, ground_inx1 = ground_link[0], ground_link[1]
     plotLine3D(jc[ground_inx0],jc[ground_inx1], color='black',linewidth=3)
-    ax.scatter3D(coupler[0],coupler[1],coupler[2],marker='o',linewidths=3, color='orange')
+    ax.scatter3D(coupler[0],coupler[1],coupler[2],marker='o',linewidths=0.1, color='orange')
     
 def plotPath(Pts, limit=5, color = 'gray',linestyle = 'line1', dot_size = 1):
 
@@ -996,7 +1050,19 @@ def Coordinate_meansquared(y1,y2):
     MSE = MSE/l
     return MSE
 
-def Path_Interpolate(path, num_pts=100, smooth=0.01):
+def Path_Interpolate_Open(path, num_pts=100, smooth=0.01):
+    px = path[:,0]
+    py = path[:,1]
+    pz = path[:,2]
+    
+    tck, u = splprep([px,py,pz],s=smooth) #splprep 给出插值结果y，splev用前者给出的新插值函数y，用输入的新节点x_new找到对应y值
+
+    u_fine = np.linspace(0,1,num_pts)
+    new_points = splev(u_fine,tck)
+    
+    return new_points
+
+def Path_Interpolate_Closed(path, num_pts=100, smooth=0.01):
     px = path[:,0]
     py = path[:,1]
     pz = path[:,2]
@@ -1006,14 +1072,11 @@ def Path_Interpolate(path, num_pts=100, smooth=0.01):
     pz = np.append(pz,pz[0]);
     
     tck, u = splprep([px,py,pz],s=smooth) #splprep 给出插值结果y，splev用前者给出的新插值函数y，用输入的新节点x_new找到对应y值
-    #print(tck)
-    #print('-----')
-    #print(u)
     u_fine = np.linspace(0,1,num_pts)
     new_points = splev(u_fine,tck)
-    #nx, ny, nz = splev(u,tck)
     
     return new_points
+
 
 def reflect_data_3d(path):
     x = path[0,:]
@@ -1120,10 +1183,21 @@ def normalizeMec(mec, trans, rot, scale):
     
     return rot_mec
 
+def normalizeJ0(jc0, ja0, trans, rot, scale):
+    trans_jc0 = jc0-trans
+    trans_jc0 = np.transpose(trans_jc0)
+    rot_jc0 = np.transpose(np.matmul(rot, trans_jc0))
+    new_jc0 = rot_jc0/scale
+    
+    new_ja0 = np.transpose(np.matmul(rot, ja0))
+    return new_jc0, new_ja0
 ####################################  After Training Simulation Functions  #####################################################
-def Open_curve_simulation (jj, jt, jc, ja, actuator, step):
-    # Prepare
-   # Calculate the configuration
+def Open_curve_simulation (jj, jt, jc, ja, actuator, step, Root_accuracy = 1e-5):
+    def fun(u, p):
+        # u: 1D array for unknowns (x27..x32), p: 1D array for params (x9,x10,x11)
+        vals = (*u, *p)
+        return np.asarray(F_num(*vals), dtype=float).ravel()
+    # Calculate the configuration
     Bi_links, Tri_links, Ground_link, Ground_inx, Actuate_link, Actuate_inx = find_link(jj, jt, actuator)
     LJ = find_link_joint_table(jj, Bi_links, Tri_links)
     UN = generate_unknown_table(jj)
@@ -1148,9 +1222,13 @@ def Open_curve_simulation (jj, jt, jc, ja, actuator, step):
     Updated_actuated_link = update_actuated_link(Actuate_link, actuator, Actuate_inx, ja, jc, jt, Bi_link_len, Tri_link_len,phi)
     #Find the initial unknowns and initial guess
     Unknown_paras, Initial_guess =find_real_unknowns_and_initial_guess(Ground_link, Ground_inx, Actuate_link, jt, UN, ja, jc, Bi_links, Updated_actuated_link)
-    Updated_constraint = assign_value_for_actuator(Final_constraint, UN_actuator_inx, Updated_actuated_link)
+    arglist = [*Unknown_paras, *UN_actuator_inx]
+    F_filtered = sp.Matrix([f for f in Final_constraint if f.free_symbols & set(Unknown_paras)])
+    F_num = sp.lambdify(arglist, F_filtered, modules = 'numpy') #change the constraint equations from symbolic to numerical
+    F_wrapped = lambda u, p: fun(u, p)
+    result_temp = root(F_wrapped, Initial_guess, args=(Updated_actuated_link.flatten()), tol = Root_accuracy)
+    Initial_para, condition = result_temp.x, result_temp.success
 
-    Initial_para, condition = solve_constraint_equations(Updated_constraint, Unknown_paras, Initial_guess)
     if condition == False:
         print("Doesn't have initial solution")
         return None
@@ -1166,8 +1244,9 @@ def Open_curve_simulation (jj, jt, jc, ja, actuator, step):
     for i in range(step-1):
         phi = phi + 360/step
         Updated_actuated_link = update_actuated_link(Actuate_link, actuator, Actuate_inx, ja, jc, jt, Bi_link_len, Tri_link_len,phi)
-        Updated_constraint = assign_value_for_actuator(Final_constraint, UN_actuator_inx, Updated_actuated_link)
-        temp_para, condition = solve_constraint_equations(Updated_constraint, Unknown_paras, Step_para[i])
+        result_temp = root(F_wrapped, Step_para[i], args=(Updated_actuated_link.flatten()), tol = Root_accuracy)
+        temp_para, condition = result_temp.x, result_temp.success   
+
         if condition == True:
             #print('-------------------------')
             Step_para[i+1,:] = temp_para
@@ -1188,8 +1267,9 @@ def Open_curve_simulation (jj, jt, jc, ja, actuator, step):
     for i in range(step2-1):
         phi = phi - 360/step
         Updated_actuated_link = update_actuated_link(Actuate_link, actuator, Actuate_inx, ja, jc, jt, Bi_link_len, Tri_link_len,phi)
-        Updated_constraint = assign_value_for_actuator(Final_constraint, UN_actuator_inx, Updated_actuated_link)
-        temp_para, condition = solve_constraint_equations(Updated_constraint, Unknown_paras, Step_para_2[i])
+        result_temp = root(F_wrapped, Step_para_2[i], args=(Updated_actuated_link.flatten()), tol = Root_accuracy)
+        temp_para, condition = result_temp.x, result_temp.success   
+
         if condition == True:
             #print('-------------------------')
             Step_para_2[i+1,:] = temp_para
@@ -1225,6 +1305,7 @@ def Open_curve_simulation (jj, jt, jc, ja, actuator, step):
     Final_step_actuated_link = np.concatenate((Step_actuated_link_2_r, Step_actuated_link), axis=0)
     
     return Final_step_para, Final_step_actuated_link
+
 
 def Coupler_in_Rigidbody (ref_pos_1, ref_pos_2, ref_axis, coupler, frame1):
     
@@ -1281,7 +1362,7 @@ def find_rotation_matrix(axis_vectors_F1, axis_vectors_F2):
     return R
 ####################################  Animation  Functions  ##############################################################
 
-from vpython import *
+# from vpython import *
 def animation_setting (jt, jc, ja, bi_links, tri_links):
     joint = []
     for i in range(len(jt)):
@@ -1450,7 +1531,7 @@ def animation_update (an_joint, an_link, jt, up_jc, up_ja, bi_links, tri_links):
 #             print("u2", joint_inx)
             
         elif jt[i] == 3: # C joint
-            an_joint[joint_inx].pos =vector(up_jc[i,0],up_jc[i,1],up_jc[i,2])
+            an_joint[joint_inx].pos = vector(up_jc[i,0],up_jc[i,1],up_jc[i,2])
             an_joint[joint_inx].axis = vector(0.3*up_ja[i,0,0],0.3*up_ja[i,0,1],0.3*up_ja[i,0,2])
             joint_inx += 1
             an_joint[joint_inx].pos =vector(up_jc[i,0],up_jc[i,1],up_jc[i,2])

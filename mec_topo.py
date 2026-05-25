@@ -1,5 +1,7 @@
 import numpy as np
+import copy
 
+#mec_order_list = ["rscr","rsur","rups","rrus","rrsc","rsup","rusr","rrcs","rsrc","rrsu","rurs","rsru","rusp","rsup","ruuu","rcsr","rcrs","rpus","rpsu","rscp","rspc","rcsp","rcps","rpcs","rpsc","rccc"]
 ###########################################################################################################################
 JJ_4 =  np.array([
     [2, 1, 0, 1],
@@ -107,185 +109,185 @@ JA_7 = np.array([
 # R-0, P-1, U-2, C-3, S-4, E (plane)-5, W (welded) -6
 Mechanism = {
     "RSCR": {#0
-        "JJ" : JJ_5,
+        "JJ" : copy.deepcopy(JJ_5),
         "JT" : np.array([0,4,6,3,0], dtype=int),
-        "JC" : JC_5,
-        "JA" : JA_5,
+        "JC" : copy.deepcopy(JC_5),
+        "JA" : copy.deepcopy(JA_5),
     },
 
     "RSUR": {#1
-        "JJ" : JJ_4,
+        "JJ" : copy.deepcopy(JJ_4),
         "JT" : np.array([0,4,2,0], dtype=int),
-        "JC" : JC_4,
-        "JA" : JA_4,       
+        "JC" : copy.deepcopy(JC_4),
+        "JA" : copy.deepcopy(JA_4),       
     },
 
     "RUPS": {#2
-        "JJ" : JJ_5,
+        "JJ" : copy.deepcopy(JJ_5),
         "JT" : np.array([0,2,6,1,4], dtype=int),
-        "JC" : JC_5,
-        "JA" : JA_5,       
+        "JC" : copy.deepcopy(JC_5),
+        "JA" : copy.deepcopy(JA_5),       
     },
 
     "RRUS": {#3
-        "JJ" : JJ_4,
+        "JJ" : copy.deepcopy(JJ_4),
         "JT" :np.array([0,0,2,4], dtype=int),
-        "JC" : JC_4,
-        "JA" : JA_4,       
+        "JC" : copy.deepcopy(JC_4),
+        "JA" : copy.deepcopy(JA_4),       
     },
 
     "RRSC": {#4
-        "JJ" : JJ_5,
+        "JJ" : copy.deepcopy(JJ_5),
         "JT" : np.array([0,0,4,6,3], dtype=int),
-        "JC" : JC_5,
-        "JA" : JA_5,       
+        "JC" : copy.deepcopy(JC_5),
+        "JA" : copy.deepcopy(JA_5),       
     },
 
     "RSUP": {#5
-        "JJ" : JJ_5,
+        "JJ" : copy.deepcopy(JJ_5),
         "JT" : np.array([0,4,2,6,1], dtype=int),
-        "JC" : JC_5,
-        "JA" : JA_5,       
+        "JC" : copy.deepcopy(JC_5),
+        "JA" : copy.deepcopy(JA_5),       
     },
 
     "RUSR": {#6
-        "JJ" : JJ_4,
+        "JJ" : copy.deepcopy(JJ_4),
         "JT" : np.array([0,2,4,0], dtype=int),
-        "JC" : JC_4,
-        "JA" : JA_4,       
+        "JC" : copy.deepcopy(JC_4),
+        "JA" : copy.deepcopy(JA_4),       
     },
 
     "RRCS": {#7
-        "JJ" : JJ_5,
+        "JJ" : copy.deepcopy(JJ_5),
         "JT" : np.array([0,0,6,3,4], dtype=int),
-        "JC" : JC_5,
-        "JA" : JA_5,       
+        "JC" : copy.deepcopy(JC_5),
+        "JA" : copy.deepcopy(JA_5),       
     },    
 
     "RSRC": {#8
-        "JJ" : JJ_5,
+        "JJ" : copy.deepcopy(JJ_5),
         "JT" : np.array([0,4,0,6,3], dtype=int),
-        "JC" : JC_5,
-        "JA" : JA_5,       
+        "JC" : copy.deepcopy(JC_5),
+        "JA" : copy.deepcopy(JA_5),       
     },    
 
     "RRSU": {#9
-        "JJ" : JJ_4,
+        "JJ" : copy.deepcopy(JJ_4),
         "JT" : np.array([0,0,4,2], dtype=int),
-        "JC" : JC_4,
-        "JA" : JA_4,       
+        "JC" : copy.deepcopy(JC_4),
+        "JA" : copy.deepcopy(JA_4),       
     },    
 
     "RURS": {#10
-        "JJ" : JJ_4,
+        "JJ" : copy.deepcopy(JJ_4),
         "JT" : np.array([0,2,0,4], dtype=int),
-        "JC" : JC_4,
-        "JA" : JA_4,       
-    },    
-
+        "JC" : copy.deepcopy(JC_4),
+        "JA" : copy.deepcopy(JA_4),       
+    },
+   
     "RSRU": {#11
-        "JJ" : JJ_4,
+        "JJ" : copy.deepcopy(JJ_4),
         "JT" : np.array([0,4,0,2], dtype=int),
-        "JC" : JC_4,
-        "JA" : JA_4,       
+        "JC" : copy.deepcopy(JC_4),
+        "JA" : copy.deepcopy(JA_4),       
     },   
 
     "RUSP": {#12
-        "JJ" : JJ_5,
+        "JJ" : copy.deepcopy(JJ_5),
         "JT" : np.array([0,2,4,6,1], dtype=int),
-        "JC" : JC_5,
-        "JA" : JA_5,       
+        "JC" : copy.deepcopy(JC_5),
+        "JA" : copy.deepcopy(JA_5),       
     },    
 
     "RSPU": {#13
-        "JJ" : JJ_5,
+        "JJ" : copy.deepcopy(JJ_5),
         "JT" : np.array([0,4,6,1,2], dtype=int),
-        "JC" : JC_5,
-        "JA" : JA_5,       
+        "JC" : copy.deepcopy(JC_5),
+        "JA" : copy.deepcopy(JA_5),       
     },    
 
     "RUUU": {#14
-        "JJ" : JJ_4,
+        "JJ" : copy.deepcopy(JJ_4),
         "JT" : np.array([0,2,2,2], dtype=int),
-        "JC" : JC_4,
-        "JA" : JA_4,       
+        "JC" : copy.deepcopy(JC_4),
+        "JA" : copy.deepcopy(JA_4),       
     },    
 
     "RCSR": {#15
-        "JJ" : JJ_5,
+        "JJ" : copy.deepcopy(JJ_5),
         "JT" : np.array([0,6,3,4,0], dtype=int),
-        "JC" : JC_5,
-        "JA" : JA_5,       
+        "JC" : copy.deepcopy(JC_5),
+        "JA" : copy.deepcopy(JA_5),       
     },    
 
     "RCRS": {#16
-        "JJ" : JJ_5,
+        "JJ" : copy.deepcopy(JJ_5),
         "JT" : np.array([0,6,3,0,4], dtype=int),
-        "JC" : JC_5,
-        "JA" : JA_5,       
+        "JC" : copy.deepcopy(JC_5),
+        "JA" : copy.deepcopy(JA_5),       
     },    
 
     "RPUS": {#17
-        "JJ" : JJ_5,
+        "JJ" : copy.deepcopy(JJ_5),
         "JT" : np.array([0, 6, 1, 2, 4], dtype=int),
-        "JC" : JC_5,
-        "JA" : JA_5,       
+        "JC" : copy.deepcopy(JC_5),
+        "JA" : copy.deepcopy(JA_5),       
     },    
 
     "RPSU": {#18
-        "JJ" : JJ_5,
+        "JJ" : copy.deepcopy(JJ_5),
         "JT" : np.array([0, 6, 1, 4, 2], dtype=int),
-        "JC" : JC_5,
-        "JA" : JA_5,       
+        "JC" : copy.deepcopy(JC_5),
+        "JA" : copy.deepcopy(JA_5),       
     },    
 
     "RSCP": {#19
-        "JJ" : JJ_6,
+        "JJ" : copy.deepcopy(JJ_6),
         "JT" : np.array([0,4,6,3,6,1], dtype=int),
-        "JC" : JC_6,
-        "JA" : JA_6,       
+        "JC" : copy.deepcopy(JC_6),
+        "JA" : copy.deepcopy(JA_6),       
     },    
 
     "RSPC": {#20
-        "JJ" : JJ_6,
+        "JJ" : copy.deepcopy(JJ_6),
         "JT" : np.array([0,4,6,1,6,3], dtype=int),
-        "JC" : JC_6,
-        "JA" : JA_6,       
+        "JC" : copy.deepcopy(JC_6),
+        "JA" : copy.deepcopy(JA_6),       
     },    
 
     "RCSP": {#21
-        "JJ" : JJ_6,
+        "JJ" : copy.deepcopy(JJ_6),
         "JT" : np.array([0,6,3,4,6,1], dtype=int),
-        "JC" : JC_6,
-        "JA" : JA_6,       
+        "JC" : copy.deepcopy(JC_6),
+        "JA" : copy.deepcopy(JA_6),       
     },    
 
     "RCPS": {#22
-        "JJ" : JJ_6,
+        "JJ" : copy.deepcopy(JJ_6),
         "JT" : np.array([0,6,3,6,1,4], dtype=int),
-        "JC" : JC_6,
-        "JA" : JA_6,       
+        "JC" : copy.deepcopy(JC_6),
+        "JA" : copy.deepcopy(JA_6),       
     },  
 
     "RPCS": {#23
-        "JJ" : JJ_6,
+        "JJ" : copy.deepcopy(JJ_6),
         "JT" : np.array([0,6,1,6,3,4], dtype=int),
-        "JC" : JC_6,
-        "JA" : JA_6,       
+        "JC" : copy.deepcopy(JC_6),
+        "JA" : copy.deepcopy(JA_6),       
     },    
 
     "RPSC": {#24
-        "JJ" : JJ_6,
+        "JJ" : copy.deepcopy(JJ_6),
         "JT" : np.array([0,6,1,4,6,3], dtype=int),
-        "JC" : JC_6,
-        "JA" : JA_6,       
+        "JC" : copy.deepcopy(JC_6),
+        "JA" : copy.deepcopy(JA_6),       
     },    
 
     "RCCC": {#25
-        "JJ" : JJ_7,
+        "JJ" : copy.deepcopy(JJ_7),
         "JT" : np.array([0,6,3,6,3,6,3], dtype=int),
-        "JC" : JC_7,
-        "JA" : JA_7,       
+        "JC" : copy.deepcopy(JC_7),
+        "JA" : copy.deepcopy(JA_7),       
     },    
 
 }
@@ -458,6 +460,7 @@ def update_jc_ja(mec_name, JC, JA, Joint1, Joint2, Joint4, rotational_axis, rota
         JC[4,:] = Joint4[m] #j4
         JA[2,0,:] = rotational_axis[k] # u2
         JA[3,0,:] = rotational_axis[n] # u3
+        JA[3,1,:] = rotational_axis_vet[n] # u3_2
         save_inx = np.array([1, 3, 4, 2, 3])
 
     elif mec_name == "RPSU": #18
@@ -553,17 +556,17 @@ def recover_jc_ja(mec_name, JC, JA, mec_t):
     rotational_axis_1 = rotational_axis_1 / np.linalg.norm(rotational_axis_1)
     rotational_axis_2 = rotational_axis_2 / np.linalg.norm(rotational_axis_2)
 
-    # rotational_axis_1_vet =  np.cross(rotational_axis_1,np.array([1,0,0]))
-    # rotational_axis_1_vet = rotational_axis_1_vet / np.linalg.norm(rotational_axis_1_vet)
-
-    # rotational_axis_2_vet =  np.cross(rotational_axis_2,np.array([1,0,0]))
-    # rotational_axis_2_vet = rotational_axis_2_vet / np.linalg.norm(rotational_axis_2_vet)
-
-    rotational_axis_1_vet =  np.cross(rotational_axis_1,np.array([rotational_axis_1[0],0,rotational_axis_1[2]]))
+    rotational_axis_1_vet =  np.cross(rotational_axis_1,np.array([1,0,0]))
     rotational_axis_1_vet = rotational_axis_1_vet / np.linalg.norm(rotational_axis_1_vet)
 
-    rotational_axis_2_vet =  np.cross(rotational_axis_2,np.array([rotational_axis_2[0],0,rotational_axis_2[2]]))
+    rotational_axis_2_vet =  np.cross(rotational_axis_2,np.array([1,0,0]))
     rotational_axis_2_vet = rotational_axis_2_vet / np.linalg.norm(rotational_axis_2_vet)
+
+    # rotational_axis_1_vet =  np.cross(rotational_axis_1,np.array([rotational_axis_1[0],0,rotational_axis_1[2]]))
+    # rotational_axis_1_vet = rotational_axis_1_vet / np.linalg.norm(rotational_axis_1_vet)
+
+    # rotational_axis_2_vet =  np.cross(rotational_axis_2,np.array([rotational_axis_2[0],0,rotational_axis_2[2]]))
+    # rotational_axis_2_vet = rotational_axis_2_vet / np.linalg.norm(rotational_axis_2_vet)
 
     if mec_name == "RSCR": #0
         JC[1,:] = Joint1 #j1
@@ -715,6 +718,7 @@ def recover_jc_ja(mec_name, JC, JA, mec_t):
         JC[4,:] = Joint4 #j4
         JA[2,0,:] = rotational_axis_1 # u2
         JA[3,0,:] = rotational_axis_2 # u3
+        JA[3,1,:] = rotational_axis_2_vet # u3
 
     elif mec_name == "RPSU": #18
         JC[1,:] = Joint1 #j1
