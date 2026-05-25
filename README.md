@@ -12,6 +12,11 @@ The current version of the simulator explicitly encodes all 26 topologies of 1-D
 
 For access to the newer and more generalized version of the simulator, please contact our lab advisor: Prof. Anurag Purwar (anurag.purwar@stonybrook.edu).
 
+To use the generated databases, please visit:   
+https://huggingface.co/datasets/ComputerAidedDesignInnovation/Spatial_Four_Bar_Mechanism  
+https://huggingface.co/datasets/ComputerAidedDesignInnovation/Spatial_Four_Bar_Mechanism_Closed  
+
+
 ## Required packages
 - Python (tested on 3.7.1 / 3.12.4)
 - Numpy (tested on 1.21.5 / 2.1.2)
