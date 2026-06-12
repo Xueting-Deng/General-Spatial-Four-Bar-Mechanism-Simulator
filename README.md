@@ -35,3 +35,9 @@ https://huggingface.co/datasets/ComputerAidedDesignInnovation/Spatial_Four_Bar_M
 
 ![](https://github.com/Xueting-Deng/General-Spatial-Four-Bar-Mechanism-Simulator/blob/main/heart.gif)
 
+## Authorship and Citation
+- Xueting Deng — original author and main developer
+- Prof.Anurag Purwar — advisor
+- Computer Aided Design Innovation Lab, Stony Brook University  — research group
+- (the paper citation will be added once published)
+
